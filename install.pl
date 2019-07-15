@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-our $VERSION = 1;
+our $VERSION = 2;
 
 use strict;
 use warnings;
@@ -19,9 +19,9 @@ main();
 sub update {
 	my $latest_version = get("https://raw.githubusercontent.com/NormanTUD/UsefulFreeHomeServer/master/install.pl");
 
-	if($latest_version =~ m!^\s*\$VERSION\s*=\s*(\d+);!) {
+	if($latest_version =~ m!\$VERSION\s*=\s*(\d+);!) {
 		my $found_version = $1;
-		if($latest_version > $VERSION) {
+		if($found_version > $VERSION) {
 			write_file($0, $latest_version);
 			debug "UPDATED VERSION. Old Version: $VERSION, new Version: $found_version";
 			debug_qx("perl $0");
@@ -280,9 +280,10 @@ sub program_installed {
 }
 
 sub install_program {
-	my $name = shift;
-	if(!is_installed_dpkg($name)) {
-		debug_system "apt-get install -y $name";
+	foreach my $name (@_) {
+		if(!is_installed_dpkg($name)) {
+			debug_system "apt-get install -y $name";
+		}
 	}
 }
 
