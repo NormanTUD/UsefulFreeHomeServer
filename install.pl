@@ -207,7 +207,10 @@ sub main {
 			debian => 'g++', 
 			suse => 'gcc'
 		},
-		'libleptonica-dev',
+		{
+			debian => 'libleptonica-dev',
+			suse => 'liblept5'
+		},
 		'libpango1.0-dev',
 		'autotools-dev',
 
