@@ -241,15 +241,17 @@ sub main {
 				url => "http://ftp5.gwdg.de/pub/opensuse/repositories/home:/jblunck:/dsc2spec/openSUSE_13.2/noarch/autotools-dev-20140911.1-1.1.noarch.rpm"
 			}
 		},
-		{ # Geht nicht
+		{
 			debian => 'zlib1g-dev',
 			suse => {
 				url => "https://rpmfind.net/linux/opensuse/distribution/leap/15.1/repo/oss/x86_64/zlib-devel-1.2.11-lp151.4.1.x86_64.rpm"
 			}
 		},
-		{ # Geht nicht
+		{
 			debian => 'libtiff5-dev',
-			suse => 'libtiff5-devel'
+			suse => {
+				url => "https://rpmfind.net/linux/opensuse/distribution/leap/15.1/repo/oss/x86_64/libtiff-devel-4.0.9-lp151.9.1.x86_64.rpm"
+			}
 		},
 		{# Geht nicht
 			debian => 'poppler-utils', 
