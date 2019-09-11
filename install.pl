@@ -259,7 +259,7 @@ sub main {
 		},
 		{
 			debian => '',
-			suse => 'libjpeg-62'
+			suse => 'libjpeg62'
 		},
 		{# Geht nicht
 			debian => 'poppler-utils', 
