@@ -218,8 +218,9 @@ sub main {
 		'libleptonica-dev',
 		'libpango1.0-dev',
 		'autotools-dev',
-		'poppler-utils',
-		'pdftk',
+
+		'poppler-utils', # Geht nicht
+		'pdftk', # Geht nicht
 		'asciidoc' # Geht, aber sehr gross
 
 	);
