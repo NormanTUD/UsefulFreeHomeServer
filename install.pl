@@ -249,6 +249,14 @@ sub main {
 		},
 		{
 			debian => '',
+			suse => 'liblzma5'
+		},
+		{
+			debian => '',
+			suse => 'libjbig2'
+		},
+		{
+			debian => '',
 			suse => 'libopenjpeg1'
 		},
 		{
