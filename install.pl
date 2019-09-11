@@ -179,7 +179,7 @@ sub main {
 	my @software = (
 		{
 			debian => 'g++', 
-			suse => 'gcc-g++'
+			suse => 'gcc'
 		},
 		'autoconf',
 		'automake',

@@ -6,6 +6,8 @@ This installs a bunch of software on Debian-systems that makes it a useful serve
 
 Please run the following commands before executing this script:
 
+> zypper install gcc
+
 > sudo cpan -i IO::Prompt
 
 > sudo cpan -i Linux::Distribution
@@ -13,8 +15,6 @@ Please run the following commands before executing this script:
 > sudo cpan -i Term::ANSIColor
 
 ## Run the installer
-
-> zypper install gcc
 
 > sudo perl install.pl
 
