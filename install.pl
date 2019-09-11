@@ -235,8 +235,12 @@ sub main {
 				url => "http://download.opensuse.org/repositories/home:/alois/openSUSE_Leap_15.1/noarch/pdftk-3.0.1-lp151.1.1.noarch.rpm"
 			}
 		},
-		'autotools-dev', # geht nicht
-
+		{ # geht nicht
+			debian => 'autotools-dev',
+			suse => {
+				url => "http://ftp5.gwdg.de/pub/opensuse/repositories/home:/jblunck:/dsc2spec/openSUSE_13.2/noarch/autotools-dev-20140911.1-1.1.noarch.rpm"
+			}
+		},
 		{ # Geht nicht
 			debian => 'zlib1g-dev',
 			suse => 'zlib1g-devel'
