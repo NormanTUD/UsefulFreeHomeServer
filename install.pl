@@ -216,6 +216,14 @@ sub main {
 			debian => 'libpango1.0-dev',
 			suse => 'pango-devel'
 		},
+
+		{
+			debian => 'pdftk',
+			suse => { 
+				url => "http://download.opensuse.org/repositories/home:/alois/openSUSE_Leap_15.1/noarch/pdftk-3.0.1-lp151.1.1.noarch.rpm",
+				filename => "pdftk-3.0.1-lp151.1.1.noarch.rpm"
+			}
+		},
 		'autotools-dev', # geht nicht
 
 		{ # Geht nicht
@@ -227,7 +235,6 @@ sub main {
 			suse => 'libtiff5-devel'
 		},
 		'poppler-utils', # Geht nicht
-		'pdftk' # Geht nicht
 
 	);
 
@@ -409,6 +416,12 @@ sub install_programs {
 		my $program = $name;
 		if(ref $program) {
 			$program = $program->{$distname};
+			if(ref $program) {
+				my $url = $program->{url};
+				my $filename = $program->{filename};
+				debug_system("wget $url");
+				return 1;
+			}
 		}
 		if(!is_installed_dpkg($program)) {
 			my $ret_code = debug_system "$pckmgr install -y $program";
