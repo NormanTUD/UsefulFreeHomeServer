@@ -189,7 +189,10 @@ sub main {
 		'pkg-config',
 		'make',
 		'ghostscript',
-		'imagemagick',
+		{
+			debian => 'imagemagick',
+			suse => 'ImageMagick'
+		},
 		'poppler-utils',
 		'keyutils',
 		'samba',
