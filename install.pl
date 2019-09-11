@@ -200,7 +200,6 @@ sub main {
 		'samba',
 		#'samba-common',
 		'poppler-utils',
-		'asciidoc', 
 		'pdftk',
 		{
 			debian => 'libpng-dev',
@@ -221,6 +220,7 @@ sub main {
 		'libleptonica-dev',
 		'libpango1.0-dev',
 		'autotools-dev'
+		'asciidoc', 
 
 	);
 
