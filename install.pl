@@ -426,7 +426,10 @@ sub install_programs {
 				$filename =~ s#.*/##g;
 				debug_system("wget $url");
 				if(-e $filename) {
-					system("rpm -i $filename");
+					my $ret_code = debug_system("rpm -i $filename");
+					if($ret_code != 0) {
+						error "Got error while installing rpm -i $filename";
+					}
 				} else {
 					error "$filename not found";
 				}
