@@ -409,7 +409,7 @@ EOF
 	if(distribution_name() =~ m#debian|ubuntu#) {
 		debug_system("service samba restart");
 	} else {
-		debug_system("systemctl restart smbd.service");
+		debug_system("systemctl restart smb");
 	}
 
 	my $local_ip = get_local_ip_address();
