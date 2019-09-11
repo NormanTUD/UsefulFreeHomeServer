@@ -177,6 +177,7 @@ sub main {
 	mkdir "$share/ocr" unless -d "$share/ocr";
 
 	my @software = (
+		'asciidoc',
 		'autoconf',
 		'automake',
 		'libtool',
@@ -215,7 +216,7 @@ sub main {
 			debian => 'libpango1.0-dev',
 			suse => 'pango-devel'
 		},
-		'autotools-dev',
+		'autotools-dev', # geht nicht
 
 		{ # Geht nicht
 			debian => 'zlib1g-dev',
@@ -226,8 +227,7 @@ sub main {
 			suse => 'libtiff5-devel'
 		},
 		'poppler-utils', # Geht nicht
-		'pdftk', # Geht nicht
-		'asciidoc' # Geht, aber sehr gross
+		'pdftk' # Geht nicht
 
 	);
 
