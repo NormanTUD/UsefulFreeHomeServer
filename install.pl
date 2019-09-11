@@ -203,12 +203,12 @@ sub main {
 		'make',
 		'git',
 		'wget',
-		'ghostscript',# bis hierhin ok
+		'ghostscript',
+		'libtool',
 		{
 			debian => '',
 			suse => 'yum'
 		},
-		'libtool',
 		{
 			debian => 'imagemagick',
 			suse => 'ImageMagick'
