@@ -203,11 +203,6 @@ sub main {
 			debian => 'libpng-dev',
 			suse => 'libpng-devel'
 		},
-
-		{
-			debian => 'zlib1g-dev',
-			suse => 'zlib1g-devel'
-		},
 		{
 			debian => 'g++', 
 			suse => 'gcc'
@@ -216,6 +211,10 @@ sub main {
 		'libpango1.0-dev',
 		'autotools-dev',
 
+		{ # Geht nicht
+			debian => 'zlib1g-dev',
+			suse => 'zlib1g-devel'
+		},
 		{ # Geht nicht
 			debian => 'libtiff5-dev',
 			suse => 'libtiff5-devel'
