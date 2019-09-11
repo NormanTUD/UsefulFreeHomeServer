@@ -195,7 +195,7 @@ sub main {
 		'keyutils',
 		'samba',
 		'samba-common',
-		'wget'
+		'wget',
 		'asciidoc',
 		'git',
 		'libtool',
@@ -217,7 +217,7 @@ sub main {
 		},
 		'libleptonica-dev',
 		'libpango1.0-dev',
-		'autotools-dev',
+		'autotools-dev'
 
 	);
 
