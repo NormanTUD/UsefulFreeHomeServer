@@ -189,8 +189,14 @@ sub main {
 			debian => 'libpng-dev',
 			suse => 'libpng-devel'
 		},
-		'libtiff5-dev',
-		'zlib1g-dev',
+		{
+			debian => 'libtiff5-dev',
+			suse => 'libtiff5-devel'
+		},
+		{
+			debian => 'zlib1g-dev',
+			suse => 'zlib1g-devel'
+		},
 		'ca-certificates',
 		'pdftk',
 		'vim',
