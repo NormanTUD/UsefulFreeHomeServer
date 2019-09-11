@@ -199,8 +199,6 @@ sub main {
 		'keyutils',
 		'samba',
 		#'samba-common',
-		'poppler-utils',
-		'pdftk',
 		{
 			debian => 'libpng-dev',
 			suse => 'libpng-devel'
@@ -220,7 +218,9 @@ sub main {
 		'libleptonica-dev',
 		'libpango1.0-dev',
 		'autotools-dev',
-		'asciidoc'
+		'poppler-utils',
+		'pdftk',
+		'asciidoc' # Geht, aber sehr gross
 
 	);
 
