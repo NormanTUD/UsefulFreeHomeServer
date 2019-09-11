@@ -190,18 +190,19 @@ sub main {
 		'make',
 		'git',
 		'ghostscript',
+		'asciidoc',
+		'libtool',
 		{
 			debian => 'imagemagick',
 			suse => 'ImageMagick'
 		},
 		'keyutils',
 		'samba',
-		'samba-common',
+		#'samba-common',
 		'wget',
 		'poppler-utils',
 		'pdftk',
-		'asciidoc',
-		'libtool',
+
 		{
 			debian => 'libpng-dev',
 			suse => 'libpng-devel'
