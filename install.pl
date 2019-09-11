@@ -267,22 +267,10 @@ sub main {
 			debian => '',
 			suse => 'libjpeg62'
 		},
-		{
-			debian => 'libtiff5-dev',
-			suse => {
-				url => "https://ftp5.gwdg.de/pub/opensuse/discontinued/update/12.3/x86_64/libtiff5-32bit-4.0.3-2.8.1.x86_64.rpm"
-			}
-		},
-		{# Geht nicht
-			debian => 'poppler-utils', 
-			suse => {
-				url => 'http://download.opensuse.org/repositories/home:/matthewdva:/build:/RedHat:/RHEL-7/complete/x86_64/poppler-utils-0.22.5-6.el7.x86_64.rpm'	
-			}
-		}
+
 	);
 
 	install_programs(@software);
-exit(1);
 
 	install_cpan_module("CPAN");
 	install_cpan_module("Digest::MD5");
@@ -292,10 +280,27 @@ exit(1);
 	install_cpan_module("File::Basename");
 	install_cpan_module("File::Copy");
 
-	install_tesseract();
-	install_tesseract_languages();
-
 	configure_samba($share, $smbpasswd);
+
+	if($distname ne 'suse') {
+		my @program = (
+			{
+				debian => 'libtiff5-dev',
+				suse => {
+					url => "https://ftp5.gwdg.de/pub/opensuse/discontinued/update/12.3/x86_64/libtiff5-32bit-4.0.3-2.8.1.x86_64.rpm"
+				}
+			},
+			{# Geht nicht
+				debian => 'poppler-utils', 
+				suse => {
+					url => 'http://download.opensuse.org/repositories/home:/matthewdva:/build:/RedHat:/RHEL-7/complete/x86_64/poppler-utils-0.22.5-6.el7.x86_64.rpm'	
+				}
+			}
+		);
+		install_tesseract();
+		install_tesseract_languages();
+	}
+
 	install_auto_ocr($share);
 }
 
