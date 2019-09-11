@@ -234,8 +234,12 @@ sub main {
 			debian => 'libtiff5-dev',
 			suse => 'libtiff5-devel'
 		},
-		'poppler-utils', # Geht nicht
-
+		{# Geht nicht
+			debian => 'poppler-utils', 
+			suse => {
+				url => 'http://download.opensuse.org/repositories/home:/matthewdva:/build:/RedHat:/RHEL-7/complete/x86_64/poppler-utils-0.22.5-6.el7.x86_64.rpm'	
+			}
+		}
 	);
 
 	install_programs(@software);
