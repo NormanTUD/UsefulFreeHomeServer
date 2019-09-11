@@ -254,6 +254,7 @@ sub main {
 	);
 
 	install_programs(@software);
+exit(1);
 
 	install_cpan_module("CPAN");
 	install_cpan_module("Digest::MD5");
