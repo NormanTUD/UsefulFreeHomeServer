@@ -199,8 +199,8 @@ sub main {
 		'keyutils',
 		'samba',
 		#'samba-common',
-		'asciidoc', 
 		'poppler-utils',
+		'asciidoc', 
 		'pdftk',
 		{
 			debian => 'libpng-dev',
