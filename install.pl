@@ -420,7 +420,7 @@ Run These commands on the machines to be connected:
 	sudo $pckmgr install cifs-utils
 	mkdir ~/nas
 	sudo chown -R \$USER:\$USER ~/nas
-	sudo mount -t cifs //$local_ip/ocr ~/nas -o user=ocr,password=$smbpasswd,uid=\$(id -u),gid=\$(id -g)
+	sudo mount -t cifs //$local_ip/ocr ~/nas -o user=ocr,password=$smbpasswd,uid=\$(id -u),gid=\$(id -g),vers=1.0
 EOF
 }
 
