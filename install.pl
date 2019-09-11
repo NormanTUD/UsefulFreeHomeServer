@@ -137,7 +137,7 @@ sub debug_qx_exit_code {
 	my $command = shift;
 	debug $command;
 
-	my $output = qx($command);
+	my $output = qx($command 2>&1);
 	my $rc = $?;
 	$rc = $rc << 8;
 
