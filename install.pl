@@ -189,8 +189,8 @@ sub main {
 		'pkg-config',
 		'make',
 		'git',
-		'ghostscript',
-		'asciidoc', # bis hierhin ok
+		'wget',
+		'ghostscript',# bis hierhin ok
 		'libtool',
 		{
 			debian => 'imagemagick',
@@ -199,7 +199,7 @@ sub main {
 		'keyutils',
 		'samba',
 		#'samba-common',
-		'wget',
+		'asciidoc', 
 		'poppler-utils',
 		'pdftk',
 		{
