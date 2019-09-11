@@ -220,8 +220,7 @@ sub main {
 		{
 			debian => 'pdftk',
 			suse => { 
-				url => "http://download.opensuse.org/repositories/home:/alois/openSUSE_Leap_15.1/noarch/pdftk-3.0.1-lp151.1.1.noarch.rpm",
-				filename => "pdftk-3.0.1-lp151.1.1.noarch.rpm"
+				url => "http://download.opensuse.org/repositories/home:/alois/openSUSE_Leap_15.1/noarch/pdftk-3.0.1-lp151.1.1.noarch.rpm"
 			}
 		},
 		'asciidoc',
@@ -418,7 +417,6 @@ sub install_programs {
 		if(ref $program) {
 			$program = $program->{$distname};
 			if(ref $program) {
-				die Dumper $program;
 				my $url = $program->{url};
 				my $filename = $program->{filename};
 				debug_system("wget $url");
