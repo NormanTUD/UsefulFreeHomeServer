@@ -184,6 +184,7 @@ sub main {
 		'pkg-config',
 		'ca-certificates',
 		'vim',
+		'asciidoc',
 		'zsh',
 		'git',
 		'make',
@@ -223,7 +224,6 @@ sub main {
 				url => "http://download.opensuse.org/repositories/home:/alois/openSUSE_Leap_15.1/noarch/pdftk-3.0.1-lp151.1.1.noarch.rpm"
 			}
 		},
-		'asciidoc',
 		'autotools-dev', # geht nicht
 
 		{ # Geht nicht
@@ -418,7 +418,8 @@ sub install_programs {
 			$program = $program->{$distname};
 			if(ref $program) {
 				my $url = $program->{url};
-				my $filename = $program->{filename};
+				my $filename = $url;
+				$filename =~ s#.*/##g;
 				debug_system("wget $url");
 				if(-e $filename) {
 					system("rpm -i $filename");
