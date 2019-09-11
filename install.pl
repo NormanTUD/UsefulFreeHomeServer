@@ -250,7 +250,7 @@ sub main {
 		{
 			debian => 'libtiff5-dev',
 			suse => {
-				url => "https://rpmfind.net/linux/opensuse/distribution/leap/15.1/repo/oss/x86_64/libtiff-devel-4.0.9-lp151.9.1.x86_64.rpm"
+				url => "https://ftp5.gwdg.de/pub/opensuse/discontinued/update/12.3/x86_64/libtiff5-32bit-4.0.3-2.8.1.x86_64.rpm"
 			}
 		},
 		{# Geht nicht
