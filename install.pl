@@ -188,19 +188,19 @@ sub main {
 		'make',
 		'pkg-config',
 		'make',
+		'git',
 		'ghostscript',
 		{
 			debian => 'imagemagick',
 			suse => 'ImageMagick'
 		},
-		'poppler-utils',
 		'keyutils',
 		'samba',
 		'samba-common',
 		'wget',
+		'poppler-utils',
 		'pdftk',
 		'asciidoc',
-		'git',
 		'libtool',
 		{
 			debian => 'libpng-dev',
