@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-our $VERSION = 2;
+our $VERSION = 3;
 
 use strict;
 use warnings;
@@ -8,13 +8,75 @@ use IO::Socket::INET;
 use File::Copy;
 use Memoize;
 use LWP::Simple;
+use IO::Prompt;
+use Linux::Distribution qw(distribution_name distribution_version);
+use Term::ANSIColor;
+use Data::Dumper;
+
+my $pckmgr = '';
+my $list_installed_packages = '';
+if(distribution_name() =~ m#debian|ubuntu#) {
+	$pckmgr = "apt-get";
+	$list_installed_packages = 'dpkg --list';
+} elsif (distribution_name() =~ m#suse#) {
+	$pckmgr = "zypper";
+	$list_installed_packages = 'zypper packages --installed-only';
+} else {
+	die "Unknown distribution!";
+}
 
 sub error (@);
 sub debug (@);
 
-memoize 'get_dpkg_list';
+if(!_is_root()) {
+	die "Run this script as root, with `".color("red")."sudo perl install.pl".color("reset").".`\n";
+}
+
+my %options = (
+	debug => 0
+);
+
+memoize 'get_all_installed_packages';
+
+analyze_args(@ARGV);
+@ARGV = ();
 
 main();
+
+sub _is_root {
+	my $login = (getpwuid $>);
+	if($login eq 'root') {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+sub _help {
+	my $exit_code = shift;
+	print <<EOF;
+UsefulFreeHomeServer installer script. Usage:
+	sudo perl install.pl <PARAMETERS>
+
+OPTIONAL PARAMETERS:
+	--debug			Enables debug-output
+EOF
+	exit($exit_code);
+}
+
+sub analyze_args {
+	my @opts = @_;
+	for (@opts) {
+		if(m#^--debug$#) {
+			$options{debug} = 1;
+		} elsif (m#^--help$#) {
+			_help(0)
+		} else {
+			warn "Unknown parameter option `$_`\n";
+			_help(1);
+		}
+	}
+}
 
 sub update {
 	my $latest_version = get("https://raw.githubusercontent.com/NormanTUD/UsefulFreeHomeServer/master/install.pl");
@@ -34,6 +96,7 @@ sub update {
 
 sub read_file {
 	my $file = shift;
+	debug "read_file($file)";
 
 	my $contents = '';
 
@@ -76,19 +139,38 @@ sub debug_qx {
 }
 
 sub main {
-	if(!is_root()) {
-		error "Run program with sudo!";
-	}
-
 	update();
+	debug "main()";
 
 	my $share = '/sambashare/';
+
+	my ($smbpasswd, $smbpasswd2) = (undef, undef);
+
+	while (!defined $smbpasswd) {
+		print "Please enter the password for the Samba share (".color("red")."double quotes will be removed!".color("reset").")\n";
+		$smbpasswd = prompt('Password:', -e => '*');
+		$smbpasswd =~ s#(?:\\)?"##;
+
+		print "Please enter it again to be sure there are no typos.\n";
+		$smbpasswd2 = prompt('Password:', -e => '*');
+
+		if($smbpasswd2 ne $smbpasswd) {
+			print color("red")."The passwords do not match. Please enter them again.".color("reset");
+			if($smbpasswd2 =~ m#"#) {
+				print color("red").q#DO NOT USE `"` IN YOUR PASSWORD PLEASE!!!#.color("reset");
+			}
+			($smbpasswd, $smbpasswd2) = (undef, undef);
+		}
+	}
 
 	mkdir $share unless -d $share;
 	mkdir "$share/ocr" unless -d "$share/ocr";
 
 	my @software = (
-		'g++',
+		{
+			debian => 'g++', 
+			suse => 'gcc-g++'
+		},
 		'autoconf',
 		'automake',
 		'libtool',
@@ -97,7 +179,6 @@ sub main {
 		'libtiff5-dev',
 		'zlib1g-dev',
 		'ca-certificates',
-		'g++',
 		'pdftk',
 		'vim',
 		'zsh',
@@ -119,7 +200,8 @@ sub main {
 		'samba-common',
 		'wget'
 	);
-	install_program(@software);
+
+	install_programs(@software);
 
 	install_cpan_module("CPAN");
 	install_cpan_module("Digest::MD5");
@@ -132,15 +214,17 @@ sub main {
 	install_tesseract();
 	install_tesseract_languages();
 
-	configure_samba($share);
+	configure_samba($share, $smbpasswd);
 	install_auto_ocr($share);
 }
 
 sub install_tesseract_languages {
+	debug "install_tesseract_languages()";
 	foreach my $lang (qw/eng deu deu_frak/) {
 		my $to = "/usr/local/share/tessdata/$lang.traineddata";
 		my $to2 = "/usr/share/tesseract-ocr/$lang.traineddata";
 		if(!-e $to || !-e $to2) {
+			debug "Installing $lang...\n\t$to\n\t$to2";
 			debug_system("wget https://github.com/tesseract-ocr/tessdata_best/raw/master/$lang.traineddata -O $to");
 			copy($to, $to2);
 		}
@@ -149,6 +233,7 @@ sub install_tesseract_languages {
 
 sub install_auto_ocr {
 	my $share = shift;
+	debug "install_auto_ocr($share)";
 
 	my $program_name = "autoocr.pl";
 	my $program_path = "/bin/$program_name";
@@ -164,7 +249,7 @@ sub install_auto_ocr {
 	debug_qx("chmod +x '$program_path'");
 
 	my $crontab = read_file('/etc/crontab');
-	if($crontab !~ /autoocr\.pl/) {
+	if($crontab !~ /\Qautoocr.pl\E/) {
 		open my $fh, '>>', '/etc/crontab';
 		print $fh "* *	* * *	root    perl $program_path\n";
 		close $fh;
@@ -172,8 +257,8 @@ sub install_auto_ocr {
 }
 
 sub install_tesseract {
+	debug "install_tesseract()";
 	return if program_installed("tesseract");
-
 
 	my @commands = (
 		'mkdir ~/.tesseractsource',
@@ -188,6 +273,8 @@ sub install_tesseract {
 
 sub configure_samba {
 	my $share = shift;
+	my $smbpasswd = shift;
+	debug "configure_samba($share, $smbpasswd)";
 	my $smb_config_file = '/etc/samba/smb.conf';
 	rename $smb_config_file, "$smb_config_file.original";
 
@@ -221,6 +308,7 @@ follow symlinks = yes
 wide links = yes
 
 EOF
+
 	open my $fh, '>', $smb_config_file or die $!;
 	print $fh $config;
 	close $fh;
@@ -228,37 +316,40 @@ EOF
 	debug_system("chmod -R 777 $share");
 	debug_system("chown -R ocr:ocr $share");
 
-	debug_system("useradd -p \$(openssl passwd -1 ocr) ocr");
+	debug_system(qq#useradd -p \$(openssl passwd -1 "$smbpasswd") ocr#);
 	debug_system("smbpasswd -x ocr");
-	debug_system(qq#printf "ocr\\nocr\\n" | smbpasswd -a ocr#);
+	debug_system(qq#printf "$smbpasswd\\n$smbpasswd\\n" | smbpasswd -a "ocr"#);
 
-	debug_system("systemctl restart smbd.service");
+	if(distribution_name() =~ m#debian|ubuntu#) {
+		debug_system("service samba restart");
+	} else {
+		debug_system("systemctl restart smbd.service");
+	}
 
 	my $local_ip = get_local_ip_address();
 
 	print <<EOF;
 Run These commands on the machines to be connected:
 
-	sudo apt-get install cifs-utils
+	sudo $pckmgr install cifs-utils
 	mkdir ~/nas
 	sudo chown -R \$USER:\$USER ~/nas
 	sudo mount -t cifs //$local_ip/ocr ~/nas -o user=ocr,password=ocr,uid=\$(id -u),gid=\$(id -g)
 EOF
 }
 
-sub is_root {
-	my $login = (getpwuid $>);
-	return 0 if $login ne 'root';
-	return 1;
-}
-
 sub install_cpan_module {
 	my $name = shift;
-	debug_system qq#cpan -i "$name"#;
+	debug "install_cpan_module($name)";
+	my $ret_code = debug_system(qq#perl -e "use $name"#);
+	if($ret_code != 0) {
+		debug_system qq#cpan -i "$name"#;
+	}
 }
 
 sub program_installed {
 	my $program = shift;
+	debug "program_installed($program)";
 	my $ret = qx(whereis $program | sed -e 's/^$program: //');
 	chomp $ret;
 	my @paths = split(/\s*/, $ret);
@@ -279,21 +370,29 @@ sub program_installed {
 	return $exists;
 }
 
-sub install_program {
+sub install_programs {
+	debug "install_programs(".join(", ", map { ref $_ ? Dumper $_ : $_ } @_).")";
 	foreach my $name (@_) {
-		if(!is_installed_dpkg($name)) {
-			debug_system "apt-get install -y $name";
+		my $program = $name;
+		if(ref $program) {
+			my $distname = distribution_name();
+			$program = $program->{$distname};
+		}
+		if(!is_installed_dpkg($program)) {
+			debug_system "$pckmgr install -y $program";
 		}
 	}
 }
 
-sub get_dpkg_list {
-	return debug_qx("dpkg --list");
+sub get_all_installed_packages {
+	debug "get_all_installed_packages()";
+	return debug_qx($list_installed_packages);
 }
 
 sub is_installed_dpkg {
 	my $name = shift;
-	my $dpkg = get_dpkg_list();
+	debug "is_installed_dpkg($name)";
+	my $dpkg = get_all_installed_packages();
 
 	if($dpkg =~ m#\b$name\b#) {
 		return 1;
@@ -302,6 +401,7 @@ sub is_installed_dpkg {
 }
 
 sub get_local_ip_address {
+	debug "get_local_ip_address()";
 	my $socket = IO::Socket::INET->new(
 		Proto       => 'udp',
 		PeerAddr    => '198.41.0.4', # a.root-servers.net
@@ -321,12 +421,12 @@ sub error (@) {
 }
 
 sub debug (@) {
-	foreach (@_) {
-		warn "DEBUG: $_\n";
+	if($options{debug}) {
+		foreach (@_) {
+			warn color("blue")."DEBUG: $_".color("reset")."\n";
+		}
 	}
 }
-
-
 
 __DATA__
 #!/usr/bin/perl
