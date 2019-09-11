@@ -14,6 +14,8 @@ Please run the following commands before executing this script:
 
 ## Run the installer
 
+> zypper install gcc
+
 > sudo perl install.pl
 
 Or, if you'd like to know more of what happens,

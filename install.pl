@@ -9,16 +9,15 @@ use File::Copy;
 use Memoize;
 use LWP::Simple;
 use IO::Prompt;
-use Linux::Distribution qw(distribution_name distribution_version);
 use Term::ANSIColor;
 use Data::Dumper;
 
 my $pckmgr = '';
 my $list_installed_packages = '';
-if(distribution_name() =~ m#debian|ubuntu#) {
+if(distribution_name() =~ m#debian|ubuntu#i) {
 	$pckmgr = "apt-get";
 	$list_installed_packages = 'dpkg --list';
-} elsif (distribution_name() =~ m#suse#) {
+} elsif (distribution_name() =~ m#suse#i) {
 	$pckmgr = "zypper";
 	$list_installed_packages = 'zypper packages --installed-only';
 } else {
@@ -27,6 +26,12 @@ if(distribution_name() =~ m#debian|ubuntu#) {
 
 sub error (@);
 sub debug (@);
+
+sub distribution_name {
+	debug "distribution_name()";
+	my $release_string= qx(cat /etc/*-release);
+	return $release_string;
+}
 
 if(!_is_root()) {
 	die "Run this script as root, with `".color("red")."sudo perl install.pl".color("reset").".`\n";
