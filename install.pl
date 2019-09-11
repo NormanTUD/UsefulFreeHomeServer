@@ -177,6 +177,7 @@ sub main {
 	mkdir "$share/ocr" unless -d "$share/ocr";
 
 	my @software = (
+		'java',
 		'autoconf',
 		'automake',
 		'libtool',
