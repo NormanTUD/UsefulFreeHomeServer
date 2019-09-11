@@ -470,7 +470,7 @@ sub install_programs {
 				}
 				if(-e $filename) {
 					my ($stdout, $ret_code) = debug_qx_exit_code("yum install $filename");
-					if($ret_code != 0 && $stdout !~ m#already installed#) {
+					if($ret_code != 0 && $stdout !~ m#does not update#) {
 						error "Got error while installing yum install $filename";
 					} else {
 						$installed = 1;
