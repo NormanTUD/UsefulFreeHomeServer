@@ -133,6 +133,17 @@ sub debug_system {
 	return system($command);
 }
 
+sub debug_qx_exit_code {
+	my $command = shift;
+	debug $command;
+
+	my $output = qx($command);
+	my $rc = $?;
+	$rc = $rc << 8;
+
+	return ($output, $rc);
+}
+
 sub debug_qx {
 	my $command = shift;
 
@@ -426,8 +437,8 @@ sub install_programs {
 				$filename =~ s#.*/##g;
 				debug_system("wget $url");
 				if(-e $filename) {
-					my $ret_code = debug_system("rpm -i $filename");
-					if($ret_code != 0) {
+					my ($stdout, $ret_code) = debug_qx_exit_code("rpm -i $filename");
+					if($ret_code != 0 && !$stdout !~ m#already installed#) {
 						error "Got error while installing rpm -i $filename";
 					}
 				} else {
