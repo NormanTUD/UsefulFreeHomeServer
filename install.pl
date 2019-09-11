@@ -430,6 +430,7 @@ sub install_programs {
 	debug "install_programs(".join(", ", map { ref $_ ? Dumper $_ : $_ } @_).")";
 	foreach my $name (@_) {
 		my $program = $name;
+		my $installed = 0;
 		if(ref $program) {
 			$program = $program->{$distname};
 			if(ref $program) {
@@ -441,14 +442,15 @@ sub install_programs {
 					my ($stdout, $ret_code) = debug_qx_exit_code("rpm -i $filename");
 					if($ret_code != 0 && $stdout !~ m#already installed#) {
 						error "Got error while installing rpm -i $filename";
+					} else {
+						$installed = 1;
 					}
 				} else {
 					error "$filename not found";
 				}
-				return 1;
 			}
 		}
-		if(!is_installed_dpkg($program)) {
+		if(!$installed && !is_installed_dpkg($program)) {
 			my $ret_code = debug_system "$pckmgr install -y $program";
 			if($ret_code != 0) {
 				error "Program `$program` could not be installed!";
