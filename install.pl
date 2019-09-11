@@ -204,6 +204,10 @@ sub main {
 		'git',
 		'wget',
 		'ghostscript',# bis hierhin ok
+		{
+			debian => '',
+			suse => 'yum'
+		},
 		'libtool',
 		{
 			debian => 'imagemagick',
