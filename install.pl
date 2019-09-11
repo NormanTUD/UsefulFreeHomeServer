@@ -203,10 +203,7 @@ sub main {
 			debian => 'libpng-dev',
 			suse => 'libpng-devel'
 		},
-		{
-			debian => 'libtiff5-dev',
-			suse => 'libtiff5-devel'
-		},
+
 		{
 			debian => 'zlib1g-dev',
 			suse => 'zlib1g-devel'
@@ -219,6 +216,10 @@ sub main {
 		'libpango1.0-dev',
 		'autotools-dev',
 
+		{ # Geht nicht
+			debian => 'libtiff5-dev',
+			suse => 'libtiff5-devel'
+		},
 		'poppler-utils', # Geht nicht
 		'pdftk', # Geht nicht
 		'asciidoc' # Geht, aber sehr gross
