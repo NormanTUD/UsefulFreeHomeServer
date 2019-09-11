@@ -211,7 +211,10 @@ sub main {
 			debian => 'libleptonica-dev',
 			suse => 'liblept5'
 		},
-		'libpango1.0-dev',
+		{
+			debian => 'libpango1.0-dev',
+			suse => 'pango-dev'
+		},
 		'autotools-dev',
 
 		{ # Geht nicht
