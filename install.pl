@@ -177,14 +177,28 @@ sub main {
 	mkdir "$share/ocr" unless -d "$share/ocr";
 
 	my @software = (
-		{
-			debian => 'g++', 
-			suse => 'gcc'
-		},
 		'autoconf',
 		'automake',
 		'libtool',
 		'pkg-config',
+		'ca-certificates',
+		'pdftk',
+		'vim',
+		'zsh',
+		'git',
+		'make',
+		'pkg-config',
+		'make',
+		'ghostscript',
+		'imagemagick',
+		'poppler-utils',
+		'keyutils',
+		'samba',
+		'samba-common',
+		'wget'
+		'asciidoc',
+		'git',
+		'libtool',
 		{
 			debian => 'libpng-dev',
 			suse => 'libpng-devel'
@@ -197,27 +211,14 @@ sub main {
 			debian => 'zlib1g-dev',
 			suse => 'zlib1g-devel'
 		},
-		'ca-certificates',
-		'pdftk',
-		'vim',
-		'zsh',
-		'git',
-		'libtool',
+		{
+			debian => 'g++', 
+			suse => 'gcc'
+		},
 		'libleptonica-dev',
-		'make',
-		'pkg-config',
-		'asciidoc',
 		'libpango1.0-dev',
-		'git',
 		'autotools-dev',
-		'make',
-		'ghostscript',
-		'imagemagick',
-		'poppler-utils',
-		'keyutils',
-		'samba',
-		'samba-common',
-		'wget'
+
 	);
 
 	install_programs(@software);
