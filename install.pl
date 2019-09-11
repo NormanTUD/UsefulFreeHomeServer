@@ -14,10 +14,13 @@ use Data::Dumper;
 
 my $pckmgr = '';
 my $list_installed_packages = '';
+my $distname = '';
 if(distribution_name() =~ m#debian|ubuntu#i) {
+	$distname = 'debian';
 	$pckmgr = "apt-get";
 	$list_installed_packages = 'dpkg --list';
 } elsif (distribution_name() =~ m#suse#i) {
+	$distname = 'suse';
 	$pckmgr = "zypper";
 	$list_installed_packages = 'zypper packages --installed-only';
 } else {
@@ -180,7 +183,10 @@ sub main {
 		'automake',
 		'libtool',
 		'pkg-config',
-		'libpng-dev',
+		{
+			debian => 'libpng-dev',
+			suse => 'libpng-devel'
+		},
 		'libtiff5-dev',
 		'zlib1g-dev',
 		'ca-certificates',
@@ -383,7 +389,6 @@ sub install_programs {
 	foreach my $name (@_) {
 		my $program = $name;
 		if(ref $program) {
-			my $distname = distribution_name();
 			$program = $program->{$distname};
 		}
 		if(!is_installed_dpkg($program)) {
