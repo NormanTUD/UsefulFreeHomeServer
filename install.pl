@@ -219,8 +219,8 @@ sub main {
 		},
 		'libleptonica-dev',
 		'libpango1.0-dev',
-		'autotools-dev'
-		'asciidoc', 
+		'autotools-dev',
+		'asciidoc'
 
 	);
 
