@@ -438,7 +438,7 @@ sub install_programs {
 				debug_system("wget $url");
 				if(-e $filename) {
 					my ($stdout, $ret_code) = debug_qx_exit_code("rpm -i $filename");
-					if($ret_code != 0 && !$stdout !~ m#already installed#) {
+					if($ret_code != 0 && $stdout !~ m#already installed#) {
 						error "Got error while installing rpm -i $filename";
 					}
 				} else {
