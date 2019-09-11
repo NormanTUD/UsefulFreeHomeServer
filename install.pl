@@ -177,7 +177,6 @@ sub main {
 	mkdir "$share/ocr" unless -d "$share/ocr";
 
 	my @software = (
-		'asciidoc',
 		'autoconf',
 		'automake',
 		'libtool',
@@ -224,6 +223,7 @@ sub main {
 				filename => "pdftk-3.0.1-lp151.1.1.noarch.rpm"
 			}
 		},
+		'asciidoc',
 		'autotools-dev', # geht nicht
 
 		{ # Geht nicht
