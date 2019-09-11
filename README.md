@@ -12,6 +12,14 @@ Please run the following commands before executing this script:
 
 > sudo cpan -i Term::ANSIColor
 
+## Run the installer
+
+> sudo perl install.pl
+
+Or, if you'd like to know more of what happens,
+
+> sudo perl install.pl --debug
+
 ## More details
 
 Specificially, this set up a Samba-Server on which there is an OCR-folder that, whatever you put
