@@ -10,8 +10,6 @@ Please run the following commands before executing this script:
 
 > sudo cpan -i IO::Prompt
 
-> sudo cpan -i Linux::Distribution
-
 > sudo cpan -i Term::ANSIColor
 
 ## Run the installer

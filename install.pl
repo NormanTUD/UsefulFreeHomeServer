@@ -190,7 +190,7 @@ sub main {
 		'make',
 		'git',
 		'ghostscript',
-		'asciidoc',
+		'asciidoc', # bis hierhin ok
 		'libtool',
 		{
 			debian => 'imagemagick',
@@ -202,7 +202,6 @@ sub main {
 		'wget',
 		'poppler-utils',
 		'pdftk',
-
 		{
 			debian => 'libpng-dev',
 			suse => 'libpng-devel'
