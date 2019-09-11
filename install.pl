@@ -343,7 +343,10 @@ sub install_cpan_module {
 	debug "install_cpan_module($name)";
 	my $ret_code = debug_system(qq#perl -e "use $name"#);
 	if($ret_code != 0) {
-		debug_system qq#cpan -i "$name"#;
+		my $ret_code_2 = debug_system qq#cpan -i "$name"#;
+		if($ret_code_2 != 0) {
+			error "CPAN-Module `$name` could not be installed!";
+		}
 	}
 }
 
@@ -379,7 +382,10 @@ sub install_programs {
 			$program = $program->{$distname};
 		}
 		if(!is_installed_dpkg($program)) {
-			debug_system "$pckmgr install -y $program";
+			my $ret_code = debug_system "$pckmgr install -y $program";
+			if($ret_code != 0) {
+				error "Program `$program` could not be installed!";
+			}
 		}
 	}
 }
@@ -415,7 +421,7 @@ sub get_local_ip_address {
 
 sub error (@) {
 	foreach (@_) {
-		warn "---> ERROR: $_\n";
+		warn color("red")."---> ERROR: $_".color("reset")."\n";
 	}
 	exit(1);
 }
