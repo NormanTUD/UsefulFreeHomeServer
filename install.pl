@@ -150,6 +150,8 @@ sub main {
 	update();
 	debug "main()";
 
+	debug "Linux-Distro: $distname";
+
 	my $share = '/sambashare/';
 
 	my ($smbpasswd, $smbpasswd2) = (undef, undef);
