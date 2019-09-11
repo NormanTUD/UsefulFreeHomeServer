@@ -235,7 +235,7 @@ sub main {
 				url => "http://download.opensuse.org/repositories/home:/alois/openSUSE_Leap_15.1/noarch/pdftk-3.0.1-lp151.1.1.noarch.rpm"
 			}
 		},
-		{ # geht nicht
+		{
 			debian => 'autotools-dev',
 			suse => {
 				url => "http://ftp5.gwdg.de/pub/opensuse/repositories/home:/jblunck:/dsc2spec/openSUSE_13.2/noarch/autotools-dev-20140911.1-1.1.noarch.rpm"
@@ -243,7 +243,9 @@ sub main {
 		},
 		{ # Geht nicht
 			debian => 'zlib1g-dev',
-			suse => 'zlib1g-devel'
+			suse => {
+				url => "https://rpmfind.net/linux/opensuse/distribution/leap/15.1/repo/oss/x86_64/zlib-devel-1.2.11-lp151.4.1.x86_64.rpm"
+			}
 		},
 		{ # Geht nicht
 			debian => 'libtiff5-dev',
