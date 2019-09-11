@@ -213,7 +213,7 @@ sub main {
 		},
 		{
 			debian => 'libpango1.0-dev',
-			suse => 'pango-dev'
+			suse => 'pango-devel'
 		},
 		'autotools-dev',
 
