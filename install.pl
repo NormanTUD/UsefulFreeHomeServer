@@ -253,14 +253,14 @@ sub main {
 #				url => "https://ftp5.gwdg.de/pub/opensuse/discontinued/update/12.3/x86_64/libtiff5-32bit-4.0.3-2.8.1.x86_64.rpm"
 #			}
 #		},
-#		{
+		{
 			debian => '',
 			suse => 'libopenjpeg1'
-		}
+		},
 		{
 			debian => '',
 			suse => 'libjpeg-62'
-		}
+		},
 		{# Geht nicht
 			debian => 'poppler-utils', 
 			suse => {
