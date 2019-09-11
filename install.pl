@@ -420,6 +420,11 @@ sub install_programs {
 				my $url = $program->{url};
 				my $filename = $program->{filename};
 				debug_system("wget $url");
+				if(-e $filename) {
+					system("rpm -i $filename");
+				} else {
+					error "$filename not found";
+				}
 				return 1;
 			}
 		}
