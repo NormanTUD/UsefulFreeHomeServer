@@ -418,6 +418,7 @@ sub install_programs {
 		if(ref $program) {
 			$program = $program->{$distname};
 			if(ref $program) {
+				die Dumper $program;
 				my $url = $program->{url};
 				my $filename = $program->{filename};
 				debug_system("wget $url");
