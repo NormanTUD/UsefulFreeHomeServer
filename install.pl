@@ -87,6 +87,7 @@ sub analyze_args {
 }
 
 sub update {
+	return 1;
 	my $latest_version = get("https://raw.githubusercontent.com/NormanTUD/UsefulFreeHomeServer/master/install.pl");
 
 	if($latest_version =~ m!\$VERSION\s*=\s*(\d+);!) {
@@ -233,12 +234,12 @@ sub main {
 			suse => 'pango-devel'
 		},
 
-		{
-			debian => 'pdftk',
-			suse => { 
-				url => "http://download.opensuse.org/repositories/home:/alois/openSUSE_Leap_15.1/noarch/pdftk-3.0.1-lp151.1.1.noarch.rpm"
-			}
-		},
+		#{
+		#	debian => 'pdftk',
+		#	suse => { 
+		#		url => "http://download.opensuse.org/repositories/home:/alois/openSUSE_Leap_15.1/noarch/pdftk-3.0.1-lp151.1.1.noarch.rpm"
+		#	}
+		#},
 		{
 			debian => 'autotools-dev',
 			suse => {
@@ -344,7 +345,7 @@ sub install_auto_ocr {
 
 sub install_tesseract {
 	debug "install_tesseract()";
-	return if program_installed("tesseract");
+	#return if program_installed("tesseract");
 
 	my @commands = (
 		'mkdir ~/.tesseractsource',
@@ -438,6 +439,7 @@ sub install_cpan_module {
 
 sub program_installed {
 	my $program = shift;
+return 0;
 	debug "program_installed($program)";
 	my $ret = qx(whereis $program | sed -e 's/^$program: //');
 	chomp $ret;
