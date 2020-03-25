@@ -198,7 +198,7 @@ sub main {
 		'vim',
 		'asciidoc',
 		'zsh',
-		'git',
+		'build-essential',
 		'make',
 		'pkg-config',
 		'make',
@@ -212,11 +212,11 @@ sub main {
 		},
 		{
 			debian => 'imagemagick',
-			suse => 'ImageMagick'
+			#suse => 'ImageMagick'
 		},
 		'keyutils',
 		'samba',
-		#'samba-common',
+		'samba-common',
 		{
 			debian => 'libpng-dev',
 			suse => 'libpng-devel'
@@ -234,12 +234,12 @@ sub main {
 			suse => 'pango-devel'
 		},
 
-		#{
-		#	debian => 'pdftk',
-		#	suse => { 
-		#		url => "http://download.opensuse.org/repositories/home:/alois/openSUSE_Leap_15.1/noarch/pdftk-3.0.1-lp151.1.1.noarch.rpm"
-		#	}
-		#},
+		{
+			debian => 'pdftk',
+			suse => { 
+				url => "http://download.opensuse.org/repositories/home:/alois/openSUSE_Leap_15.1/noarch/pdftk-3.0.1-lp151.1.1.noarch.rpm"
+			}
+		},
 		{
 			debian => 'autotools-dev',
 			suse => {
